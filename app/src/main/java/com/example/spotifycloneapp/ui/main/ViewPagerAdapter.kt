@@ -1,12 +1,12 @@
-package com.example.spotifycloneapp.main
+package com.example.spotifycloneapp.ui.main
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.spotifycloneapp.R
-import com.example.spotifycloneapp.favorites.FavoritesFragment
-import com.example.spotifycloneapp.radios.RadiosFragment
+import com.example.spotifycloneapp.ui.favorites.FavoritesFragment
+import com.example.spotifycloneapp.ui.radios.RadiosFragment
 
 class ViewPagerAdapter(context: Context, fragmentManager: FragmentManager, behavior: Int) :
     FragmentStatePagerAdapter(fragmentManager, behavior) {

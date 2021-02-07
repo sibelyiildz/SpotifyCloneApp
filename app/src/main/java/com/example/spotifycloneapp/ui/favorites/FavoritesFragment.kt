@@ -1,4 +1,4 @@
-package com.example.spotifycloneapp.favorites
+package com.example.spotifycloneapp.ui.favorites
 
 import android.os.Bundle
 import android.view.LayoutInflater

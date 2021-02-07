@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.spotifycloneapp.R
 import com.example.spotifycloneapp.data.RadioDataSource
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -26,40 +27,24 @@ class RadiosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        radioDataSource.fetchLocationRedios()
+        fetchRadioPage()
+
+    }
+
+    private fun fetchRadioPage() {
+        val locationObservable = radioDataSource.fetchLocationRedios()
+
+        val popularObservable = radioDataSource.fetchPopularRadios()
+
+        Observable.combineLatest(popularObservable, locationObservable, RadioPageCombiner())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                Log.v("TEST", "fetchLocationRedios ${it.status}")
+                Log.v(
+                    "TEST",
+                    it.popularRadios.status.toString() + " " + it.locationRadios.status.toString()
+                )
             }
-
-        radioDataSource.fetchPopularRadios()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Log.v("TEST", "fetchPopularRadios ${it.status}")
-            }
-
-//        radioServiceProvider
-//                .getRadioService()
-//                .getPopularRadios()
-////                .filter { it.size == 0 }
-////                //gelen listeyi boş bir liste ile değiştir
-////                .map { it ->  arrayListOf<MediaStore.Audio.Radio>() }
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        { Log.v("TEST", "$it") },
-//                        { Log.v("TEST", "$it") })
-//
-//        radioServiceProvider
-//                .getRadioService()
-//                .getLocationRadios()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        { Log.v("TEST", "$it") },
-//                        { Log.v("TEST", "$it") })
 
     }
 
